@@ -1,0 +1,221 @@
+.nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 30px 5vw 0;
+  width: 100%;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.brandWrap,
+.links,
+.progress {
+  pointer-events: auto;
+}
+
+.brandWrap {
+  display: flex;
+  align-items: flex-start;
+  min-height: 38px;
+}
+
+.brandLink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: brandFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes brandFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.brandName {
+  display: block;
+  font-size: clamp(1.1rem, 1.3vw, 1.5rem);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.brandRole {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.62rem;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  position: relative;
+  padding-bottom: 8px;
+  margin-top: 2px;
+  flex-wrap: nowrap;
+}
+
+.link {
+  color: rgba(255,255,255,0.96);
+  text-decoration: none;
+  position: relative;
+  padding: 6px 0;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: opacity 0.25s ease;
+}
+
+.link:hover {
+  opacity: 0.85;
+}
+
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background: rgba(255,255,255,0.9);
+  transform: translateX(0);
+  transition: transform 0.35s cubic-bezier(.2,.9,.3,1), width 0.35s cubic-bezier(.2,.9,.3,1);
+  will-change: transform, width;
+  pointer-events: none;
+}
+
+.progress {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 60;
+}
+
+.progressItem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.progressItem i {
+  display: block;
+  width: 1px;
+  height: 18px;
+  background: rgba(255,255,255,0.45);
+}
+
+.progressItem em {
+  position: absolute;
+  right: 18px;
+  font-style: normal;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.progressItem:hover em,
+.progressItemActive em {
+  opacity: 1;
+}
+
+.progressItemActive {
+  opacity: 1;
+}
+
+.progressItemActive i {
+  background: rgba(255,255,255,1);
+  height: 20px;
+}
+
+@media (max-width: 700px) {
+  .nav {
+    padding: 20px 22px 0;
+  }
+
+  .links {
+    gap: 1rem;
+  }
+
+  .link {
+    font-size: 0.6rem;
+    letter-spacing: 0.09em;
+  }
+
+  .brandName {
+    font-size: 1rem;
+  }
+
+  .brandRole {
+    font-size: 0.56rem;
+    letter-spacing: 0.16em;
+  }
+}
+
+@media (max-width: 500px) {
+  .nav {
+    padding-top: 18px;
+    align-items: flex-start;
+  }
+
+  .brandLink {
+    gap: 0;
+  }
+
+  .links {
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 50%;
+  }
+
+  .link {
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+    padding: 4px 0;
+  }
+
+  .brandName {
+    font-size: 0.86rem;
+    letter-spacing: 0.06em;
+  }
+
+  .brandRole {
+    font-size: 0.48rem;
+    letter-spacing: 0.12em;
+  }
+
+  .progress {
+    display: none;
+  }
+}
