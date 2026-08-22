@@ -5,6 +5,9 @@ export type ProjectItem = {
   description: string
   demo: string
   image: string
+  video?: string
+  poster?: string
+  linkLabel?: string
   number: string
   accent: string
 }
@@ -58,6 +61,19 @@ export const projects: ProjectItem[] = [
     demo: '/demo/the-journey',
     image: '/projects/project-05.jpg',
     number: '05',
+    accent: '#f0f0f0'
+  },
+  {
+    slug: 'cinematic-edit',
+    title: 'CINEMATIC EDIT',
+    category: 'VIDEO EDITING',
+    description: 'A cinematic video edit showcasing storytelling, pacing, transitions, color grading and visual effects.',
+    demo: '/demo/cinematic-edit',
+    image: '/projects/project-01.jpg',
+    video: '/videos/Sugu_bike.MP4',
+    poster: '/website-assets/ezgif-frame-003_cinematic_bw_2140p.jpg',
+    linkLabel: 'VIEW PROJECT',
+    number: '06',
     accent: '#f0f0f0'
   }
 ]

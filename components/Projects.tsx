@@ -41,6 +41,16 @@ const projects = [
     description: 'A cinematic travel edit built around smooth transitions, atmosphere and visual rhythm.',
     href: '/demo/the-journey',
     thumb: '/projects/project-05.jpg'
+  },
+  {
+    id: '06',
+    title: 'CINEMATIC EDIT',
+    category: 'VIDEO EDITING',
+    description: 'A cinematic video edit showcasing storytelling, pacing, transitions, color grading and visual effects.',
+    href: '/demo/cinematic-edit',
+    video: '/videos/Sugu_bike.MP4',
+    poster: '/website-assets/ezgif-frame-003_cinematic_bw_2140p.jpg',
+    action: 'VIEW PROJECT'
   }
 ]
 
@@ -56,14 +66,31 @@ const Projects: React.FC = () => {
         <div className={styles.grid}>
           {projects.map((project, index) => (
             <article className={`${styles.card} ${index === 0 ? styles.featured : ''}`} key={project.id}>
-              <div className={styles.thumb} style={{ backgroundImage: `url(${project.thumb})` }} />
+              {project.video ? (
+                <div className={styles.media}>
+                  <video
+                    className={styles.video}
+                    src={project.video}
+                    poster={project.poster}
+                    muted
+                    playsInline
+                    autoPlay
+                    loop
+                    preload="metadata"
+                  />
+                  <div className={styles.overlay} />
+                  <div className={styles.playIndicator}>PLAY</div>
+                </div>
+              ) : (
+                <div className={styles.thumb} style={{ backgroundImage: `url(${project.thumb})` }} />
+              )}
               <div className={styles.meta}>
                 <div className={styles.number}>{project.id}</div>
                 <div className={styles.category}>{project.category}</div>
                 <h3>{project.title}</h3>
                 <p>{project.description}</p>
                 <a className={styles.view} href={project.href}>
-                  VIEW DEMO <span aria-hidden="true">↗</span>
+                  {project.action ?? 'VIEW DEMO'} <span aria-hidden="true">↗</span>
                 </a>
               </div>
             </article>
