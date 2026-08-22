@@ -75,5 +75,18 @@ export const projects: ProjectItem[] = [
     linkLabel: 'VIEW PROJECT',
     number: '06',
     accent: '#f0f0f0'
+  },
+  {
+    slug: 'triumph',
+    title: 'TRIUMPH',
+    category: 'VIDEO EDITING',
+    description: 'A cinematic commercial edit showcasing pacing, transitions and polished color grading.',
+    demo: '/demo/triumph',
+    image: '/projects/project-02.jpg',
+    video: '/videos/Triumph.MP4',
+    poster: '/website-assets/ezgif-frame-004_cinematic_bw_2140p.jpg',
+    linkLabel: 'VIEW PROJECT',
+    number: '07',
+    accent: '#d8d8d8'
   }
 ]
