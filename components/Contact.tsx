@@ -1,41 +1,23 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import styles from '../styles/Contact.module.css'
 
 const Contact: React.FC = () => {
-  const sectionRef = useRef<HTMLElement | null>(null)
-
-  useEffect(() => {
-    const node = sectionRef.current
-    if (!node) return
-
-    const revealItems = Array.from(node.querySelectorAll(`.${styles.reveal}`)) as HTMLElement[]
-    if (!revealItems.length) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.15 }
-    )
-
-    revealItems.forEach((item) => observer.observe(item))
-    return () => observer.disconnect()
-  }, [])
+  const openEnquiry = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const values = new FormData(event.currentTarget)
+    const message = `Hi Sugumar, I’m ${values.get('name')}.\nEmail: ${values.get('email')}\n\n${values.get('message')}`
+    window.location.assign(`https://wa.me/919150319110?text=${encodeURIComponent(message)}`)
+  }
 
   return (
-    <section id="contact" ref={sectionRef} className={styles.contact}>
+    <section id="contact" className={styles.contact}>
       <div className={styles.inner}>
         <div className={styles.statementWrap}>
-          <div className={`${styles.reveal} ${styles.statement}`} style={{ transitionDelay: '0ms' }}>
+          <div className={`${styles.statement}`} style={{ transitionDelay: '0ms' }}>
             <span className={styles.label}>GET IN TOUCH</span>
             <h2>LET&apos;S CREATE<br />SOMETHING<br />CINEMATIC.</h2>
           </div>
-          <div className={`${styles.reveal} ${styles.note}`} style={{ transitionDelay: '120ms' }}>
+          <div className={`${styles.note}`} style={{ transitionDelay: '120ms' }}>
             <p>Have a project in mind?</p>
             <p>Let&apos;s bring it to life.</p>
           </div>
@@ -43,19 +25,19 @@ const Contact: React.FC = () => {
 
         <div className={styles.grid}>
           <div className={styles.infoPanel}>
-            <div className={`${styles.reveal} ${styles.headingWrap}`} style={{ transitionDelay: '180ms' }}>
+            <div className={`${styles.headingWrap}`} style={{ transitionDelay: '180ms' }}>
               <div className={styles.label}>GET IN TOUCH</div>
               <h3>Let&apos;s create something cinematic together.</h3>
             </div>
 
-            <div className={`${styles.reveal} ${styles.description}`} style={{ transitionDelay: '260ms' }}>
+            <div className={`${styles.description}`} style={{ transitionDelay: '260ms' }}>
               I&apos;m always open to discussing new projects, creative ideas, collaborations and opportunities.
             </div>
 
             <div className={styles.contactList}>
               <a
-                href="mailto:info@mail.com"
-                className={`${styles.reveal} ${styles.contactItem}`}
+                href="https://wa.me/919150319110"
+                className={`${styles.contactItem}`}
                 style={{ transitionDelay: '340ms' }}
               >
                 <span className={styles.icon} aria-hidden="true">
@@ -65,14 +47,14 @@ const Contact: React.FC = () => {
                   </svg>
                 </span>
                 <span className={styles.itemText}>
-                  <small>EMAIL</small>
-                  <strong>info@mail.com</strong>
+                  <small>WHATSAPP</small>
+                  <strong>Start a conversation ↗</strong>
                 </span>
               </a>
 
               <a
                 href="tel:+919150319110"
-                className={`${styles.reveal} ${styles.contactItem}`}
+                className={`${styles.contactItem}`}
                 style={{ transitionDelay: '420ms' }}
               >
                 <span className={styles.icon} aria-hidden="true">
@@ -91,24 +73,25 @@ const Contact: React.FC = () => {
           </div>
 
           <div className={styles.formPanel}>
-            <form className={styles.form} onSubmit={(event) => event.preventDefault()}>
-              <div className={`${styles.reveal} ${styles.field}`} style={{ transitionDelay: '260ms' }}>
+            <form className={styles.form} onSubmit={openEnquiry}>
+              <div className={`${styles.field}`} style={{ transitionDelay: '260ms' }}>
                 <label htmlFor="name">YOUR NAME</label>
-                <input id="name" type="text" placeholder="Enter your name" />
+                <input id="name" name="name" autoComplete="name" required maxLength={100} type="text" placeholder="Enter your name" />
               </div>
 
-              <div className={`${styles.reveal} ${styles.field}`} style={{ transitionDelay: '390ms' }}>
+              <div className={`${styles.field}`} style={{ transitionDelay: '390ms' }}>
                 <label htmlFor="email">EMAIL</label>
-                <input id="email" type="email" placeholder="Enter your email" />
+                <input id="email" name="email" autoComplete="email" required type="email" placeholder="Enter your email" />
               </div>
 
-              <div className={`${styles.reveal} ${styles.field}`} style={{ transitionDelay: '520ms' }}>
+              <div className={`${styles.field}`} style={{ transitionDelay: '520ms' }}>
                 <label htmlFor="message">PROJECT DETAILS</label>
-                <textarea id="message" placeholder="Tell me about your project..." rows={6} />
+                <textarea id="message" name="message" required maxLength={2000} placeholder="Tell me about your project..." rows={6} />
               </div>
 
-              <div className={`${styles.reveal} ${styles.submitWrap}`} style={{ transitionDelay: '650ms' }}>
-                <button type="button">SEND MESSAGE <span aria-hidden="true">↗</span></button>
+              <div className={`${styles.submitWrap}`} style={{ transitionDelay: '650ms' }}>
+                <p className={styles.description}>Opens WhatsApp with your enquiry. Review it there before sending.</p>
+                <button type="submit">CONTINUE IN WHATSAPP <span aria-hidden="true">↗</span></button>
               </div>
             </form>
           </div>

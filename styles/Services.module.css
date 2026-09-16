@@ -168,3 +168,8 @@
     font-size: 0.92rem;
   }
 }
+
+.services { min-height: auto; padding: 100px 0; background: #12150f; border-block: 1px solid #ffffff0d; }
+.title { font-weight: 450; text-transform: none; }
+.card { border-radius: 6px; background: transparent; min-height: 270px; }
+.action { text-decoration: none; color: var(--highlight); min-height: 44px; }

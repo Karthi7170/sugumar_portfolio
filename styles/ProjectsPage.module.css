@@ -28,8 +28,8 @@
 .hero {
   max-width: 720px;
   padding-top: 20px;
-  opacity: 0;
-  transform: translateY(18px);
+  opacity: 1;
+  transform: none;
   animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
@@ -218,3 +218,6 @@
     height: 260px;
   }
 }
+
+.thumbWrap { aspect-ratio: 16/10; }
+.hero .title { font-size: clamp(3rem, 6vw, 6rem); }
