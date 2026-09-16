@@ -102,3 +102,8 @@
     font-size: 0.96rem;
   }
 }
+
+.about { min-height: auto; padding: 110px 0; }
+
+.header h2 { font-weight: 450; }
+@media(max-width:600px) { .about { padding: 72px 0; } .inner { width: calc(100% - 40px); } }

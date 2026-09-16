@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import styles from '../styles/Services.module.css'
 
 const services = [
@@ -29,33 +29,8 @@ const services = [
 ]
 
 const Services: React.FC = () => {
-  const sectionRef = useRef<HTMLElement | null>(null)
-
-  useEffect(() => {
-    const node = sectionRef.current
-    if (!node) return
-
-    const cards = Array.from(node.querySelectorAll(`.${styles.card}`)) as HTMLElement[]
-    if (!cards.length) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.18 }
-    )
-
-    cards.forEach((card) => observer.observe(card))
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="services" ref={sectionRef} className={styles.services}>
+    <section id="services" className={styles.services}>
       <div className={styles.inner}>
         <div className={styles.header}>
           <div className={styles.label}>SERVICES</div>
@@ -69,7 +44,7 @@ const Services: React.FC = () => {
           {services.map((service, index) => (
             <article
               key={service.id}
-              className={`${styles.card} ${styles.hidden}`}
+              className={styles.card}
               style={{ transitionDelay: `${index * 140}ms` }}
             >
               <div className={styles.cardTop}>
@@ -77,9 +52,9 @@ const Services: React.FC = () => {
               </div>
               <h3 className={styles.cardTitle}>{service.title}</h3>
               <p className={styles.cardText}>{service.description}</p>
-              <span className={styles.action}>
-                VIEW SERVICE <span aria-hidden="true">↗</span>
-              </span>
+              <a href="#contact" className={styles.action}>
+                DISCUSS YOUR PROJECT <span aria-hidden="true">↗</span>
+              </a>
             </article>
           ))}
         </div>

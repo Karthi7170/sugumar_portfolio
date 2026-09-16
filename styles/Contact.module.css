@@ -29,8 +29,8 @@
 .contactItem,
 .field,
 .submitWrap {
-  opacity: 0;
-  transform: translateY(22px);
+  opacity: 1;
+  transform: none;
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
@@ -220,7 +220,7 @@
   border-radius: 12px;
   padding: 16px 18px;
   font: inherit;
-  outline: none;
+
   transition: border-color 0.3s ease, background 0.3s ease;
   resize: vertical;
 }
@@ -305,3 +305,9 @@
     width: 100%;
   }
 }
+
+.infoPanel, .formPanel { border-radius: 6px; }
+.statement h2 { font-weight: 450; line-height: 1.05; }
+.icon { animation: none; flex-shrink: 0; }
+.submitWrap button { background: var(--highlight); color: #151812; border-radius: 4px; letter-spacing: .06em; }
+.submitWrap button:hover { background: #e6efd6; }

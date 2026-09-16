@@ -13,9 +13,9 @@ const Footer: React.FC = () => {
         <div className={styles.copyright}>© {new Date().getFullYear()} SUGUMAR. ALL RIGHTS RESERVED.</div>
 
         <div className={styles.social}>
-          <a href="https://instagram.com" target="_blank" rel="noreferrer">INSTAGRAM</a>
-          <a href="https://youtube.com" target="_blank" rel="noreferrer">YOUTUBE</a>
-          <a href="https://linkedin.com" target="_blank" rel="noreferrer">LINKEDIN</a>
+          <a href="/#projects">SELECTED WORK</a>
+          <a href="/#contact">CONTACT</a>
+          <a href="/#home">BACK TO TOP ↑</a>
         </div>
       </div>
     </footer>
