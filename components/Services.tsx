@@ -2,30 +2,10 @@ import React from 'react'
 import styles from '../styles/Services.module.css'
 
 const services = [
-  {
-    id: '01',
-    title: 'CINEMATIC VIDEO EDITING',
-    description:
-      'Professional cinematic editing with pacing, transitions, storytelling and visual rhythm.'
-  },
-  {
-    id: '02',
-    title: 'SOCIAL MEDIA CONTENT',
-    description:
-      'Engaging short-form videos optimized for Instagram Reels, YouTube Shorts and social platforms.'
-  },
-  {
-    id: '03',
-    title: 'MUSIC VIDEO EDITING',
-    description:
-      'Emotion-driven music video edits with rhythm-based cuts, transitions and cinematic visual treatment.'
-  },
-  {
-    id: '04',
-    title: 'COLOR & VISUAL DESIGN',
-    description:
-      'Cinematic color grading, black-and-white treatments, visual effects and finishing.'
-  }
+  { id: '01', title: 'CINEMATIC EDITING', description: 'Narrative pacing, clean cuts and purposeful transitions that make the footage feel intentional.' },
+  { id: '02', title: 'SOCIAL CONTENT', description: 'Short-form edits built for Reels, Shorts and campaign content without losing visual polish.' },
+  { id: '03', title: 'MOTION & RHYTHM', description: 'Music-led cuts, kinetic sequencing and subtle motion design that support the story instead of distracting from it.' },
+  { id: '04', title: 'COLOR & FINISHING', description: 'Color treatment, sound polish and final finishing that gives every delivery a cohesive cinematic look.' }
 ]
 
 const Services: React.FC = () => {
@@ -33,28 +13,17 @@ const Services: React.FC = () => {
     <section id="services" className={styles.services}>
       <div className={styles.inner}>
         <div className={styles.header}>
-          <div className={styles.label}>SERVICES</div>
-          <h2 className={styles.title}>WHAT I DO</h2>
-          <p className={styles.copy}>
-            I create cinematic visual experiences designed to capture attention, tell stories and make every frame feel intentional.
-          </p>
+          <div className={styles.label}>02 / SERVICES</div>
+          <h2 className={styles.title}>From raw footage<br /><em>to final feeling.</em></h2>
+          <p className={styles.copy}>Editing for brands, creators and visual stories — with a focus on rhythm, emotion and a premium final finish.</p>
         </div>
-
         <div className={styles.grid}>
-          {services.map((service, index) => (
-            <article
-              key={service.id}
-              className={styles.card}
-              style={{ transitionDelay: `${index * 140}ms` }}
-            >
-              <div className={styles.cardTop}>
-                <span className={styles.number}>{service.id}</span>
-              </div>
+          {services.map((service) => (
+            <article key={service.id} className={styles.card}>
+              <span className={styles.number}>{service.id}</span>
               <h3 className={styles.cardTitle}>{service.title}</h3>
               <p className={styles.cardText}>{service.description}</p>
-              <a href="#contact" className={styles.action}>
-                DISCUSS YOUR PROJECT <span aria-hidden="true">↗</span>
-              </a>
+              <a href="#contact" className={styles.action}>DISCUSS A PROJECT <span aria-hidden="true">↗</span></a>
             </article>
           ))}
         </div>
@@ -62,5 +31,4 @@ const Services: React.FC = () => {
     </section>
   )
 }
-
 export default Services

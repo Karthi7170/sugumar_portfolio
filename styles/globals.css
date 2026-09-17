@@ -1,18 +1,2 @@
-:root { --bg:#0c0d0c; --card:#131512; --muted:#a7aca2; --accent:#f3f4ed; --highlight:#d2dfbb; --glass:rgba(255,255,255,.04); --max-width:1200px; color-scheme:dark; }
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; scroll-padding-top:100px; }
-body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif; background:var(--bg); color:var(--accent); -webkit-font-smoothing:antialiased; }
-a { color:inherit; }
-button,input,textarea { font:inherit; }
-button,a,input,textarea { -webkit-tap-highlight-color:transparent; }
-:focus-visible { outline:2px solid var(--highlight); outline-offset:5px; }
-::selection { background:var(--highlight); color:#12150e; }
-main { min-height:100vh; }
-section { scroll-margin-top:20px; }
-.container { max-width:var(--max-width); margin:0 auto; padding:0 28px; }
-.skip-link { position:fixed; top:12px; left:12px; z-index:100; padding:16px; background:var(--highlight); color:#111; transform:translateY(-150%); }
-.skip-link:focus { transform:translateY(0); }
-@media(prefers-reduced-motion:reduce) {
- html { scroll-behavior:auto; }
- *,*::before,*::after { animation:none !important; transition:none !important; }
-}
+:root { --bg:#0a1118; --bgSoft:#0e1822; --surface:#121e29; --surfaceWarm:#1a1a19; --text:#f5efe7; --muted:#aeb4b8; --accent:#ef8f49; --accentSoft:#f2c6a0; --teal:#69c8bf; --line:rgba(245,239,231,.09); --lineStrong:rgba(245,239,231,.18); --max-width:1200px; color-scheme:dark; }
+*{box-sizing:border-box} html{scroll-behavior:smooth;scroll-padding-top:94px} body{margin:0;min-width:320px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden} body::before{content:'';position:fixed;inset:0;z-index:-20;pointer-events:none;background:radial-gradient(circle at 15% 10%,rgba(105,200,191,.08),transparent 34%),radial-gradient(circle at 82% 18%,rgba(239,143,73,.07),transparent 30%),#0a1118} a{color:inherit} button,input,textarea{font:inherit} button,a,input,textarea{-webkit-tap-highlight-color:transparent} :focus-visible{outline:2px solid var(--accent);outline-offset:5px} ::selection{background:var(--accent);color:#1a100b} main{min-height:100vh} section{scroll-margin-top:84px} .skip-link{position:fixed;top:12px;left:12px;z-index:100;padding:14px 16px;border-radius:999px;background:var(--accent);color:#1a100b;transform:translateY(-150%)} .skip-link:focus{transform:translateY(0)} @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
