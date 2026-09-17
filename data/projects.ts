@@ -13,8 +13,6 @@ export type ProjectItem = {
   accent: string
 }
 
-const mediaBase = 'https://media.githubusercontent.com/media/Karthi7170/sugumar_portfolio/main/public/videos'
-
 export const projects: ProjectItem[] = [
   {
     slug: 'portrait-story',
