@@ -1,3 +1,4 @@
+# Browser-compatible H.264/AAC transcode pipeline
 name: Build browser-ready portfolio videos
 
 on:
