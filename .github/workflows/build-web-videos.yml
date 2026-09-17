@@ -22,7 +22,7 @@ jobs:
           lfs: true
           fetch-depth: 0
 
-      - name: Fetch LFS video objects
+      - name: Fetch source videos from Git LFS
         run: git lfs pull
 
       - name: Install FFmpeg
@@ -30,29 +30,62 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Transcode portfolio videos for browsers
+      - name: Convert all portfolio videos to browser-safe H.264 MP4
         run: |
           set -euxo pipefail
           mkdir -p public/web-videos
 
-          ffmpeg -y -i "public/videos/sugu.MOV"             -vf "scale=-2:720,fps=30"             -c:v libx264 -profile:v high -level 4.0 -preset medium -crf 25             -maxrate 3000k -bufsize 6000k -pix_fmt yuv420p             -c:a aac -b:a 128k -movflags +faststart             "public/web-videos/portrait-story.mp4"
+          ffmpeg -hide_banner -loglevel error -y -i "public/videos/sugu.MOV"             -vf "scale=-2:720,fps=30"             -c:v libx264 -preset veryfast -crf 28 -pix_fmt yuv420p -profile:v high -level 4.0             -c:a aac -b:a 96k -movflags +faststart             "public/web-videos/portrait-story.mp4"
 
-          ffmpeg -y -i "public/videos/Sugu_bike.MP4"             -vf "scale=-2:720,fps=30"             -c:v libx264 -profile:v high -level 4.0 -preset medium -crf 25             -maxrate 3000k -bufsize 6000k -pix_fmt yuv420p             -c:a aac -b:a 128k -movflags +faststart             "public/web-videos/ride-in-motion.mp4"
+          ffmpeg -hide_banner -loglevel error -y -i "public/videos/Sugu_bike.MP4"             -vf "scale=-2:720,fps=30"             -c:v libx264 -preset veryfast -crf 28 -pix_fmt yuv420p -profile:v high -level 4.0             -c:a aac -b:a 96k -movflags +faststart             "public/web-videos/ride-in-motion.mp4"
 
-          ffmpeg -y -i "public/videos/IMG_6606.MP4"             -vf "scale=-2:720,fps=30"             -c:v libx264 -profile:v high -level 4.0 -preset medium -crf 25             -maxrate 3000k -bufsize 6000k -pix_fmt yuv420p             -c:a aac -b:a 128k -movflags +faststart             "public/web-videos/skyone-brand-film.mp4"
+          ffmpeg -hide_banner -loglevel error -y -i "public/videos/IMG_6606.MP4"             -vf "scale=-2:720,fps=30"             -c:v libx264 -preset veryfast -crf 28 -pix_fmt yuv420p -profile:v high -level 4.0             -c:a aac -b:a 96k -movflags +faststart             "public/web-videos/skyone-brand-film.mp4"
 
-          ffmpeg -y -i "public/videos/IMG_7269.MOV"             -vf "scale=720:-2,fps=30"             -c:v libx264 -profile:v high -level 4.0 -preset medium -crf 25             -maxrate 3000k -bufsize 6000k -pix_fmt yuv420p             -c:a aac -b:a 128k -movflags +faststart             "public/web-videos/training-energy.mp4"
+          ffmpeg -hide_banner -loglevel error -y -i "public/videos/IMG_7269.MOV"             -vf "scale=720:-2,fps=30"             -c:v libx264 -preset veryfast -crf 28 -pix_fmt yuv420p -profile:v high -level 4.0             -c:a aac -b:a 96k -movflags +faststart             "public/web-videos/training-energy.mp4"
 
-          ffmpeg -y -i "public/videos/Triumph.MP4"             -vf "scale=-2:720,fps=30"             -c:v libx264 -profile:v high -level 4.0 -preset medium -crf 25             -maxrate 3000k -bufsize 6000k -pix_fmt yuv420p             -c:a aac -b:a 128k -movflags +faststart             "public/web-videos/triumph-road-film.mp4"
+          ffmpeg -hide_banner -loglevel error -y -i "public/videos/Triumph.MP4"             -vf "scale=-2:720,fps=30"             -c:v libx264 -preset veryfast -crf 28 -pix_fmt yuv420p -profile:v high -level 4.0             -c:a aac -b:a 96k -movflags +faststart             "public/web-videos/triumph-road-film.mp4"
 
-      - name: Commit optimized videos
+      - name: Point portfolio to converted local MP4 files
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path("data/projects.ts")
+          text = p.read_text()
+
+          text = text.replace(
+              "const mediaBase = 'https://media.githubusercontent.com/media/Karthi7170/sugumar_portfolio/main/public/videos'\n\n",
+              ""
+          )
+
+          replacements = {
+              "video: \`${mediaBase}/sugu.MOV\`,": "video: '/web-videos/portrait-story.mp4',",
+              "video: \`${mediaBase}/Sugu_bike.MP4\`,": "video: '/web-videos/ride-in-motion.mp4',",
+              "video: \`${mediaBase}/IMG_6606.MP4\`,": "video: '/web-videos/skyone-brand-film.mp4',",
+              "video: \`${mediaBase}/IMG_7269.MOV\`,": "video: '/web-videos/training-energy.mp4',",
+              "video: \`${mediaBase}/Triumph.MP4\`,": "video: '/web-videos/triumph-road-film.mp4',",
+          }
+          for old, new in replacements.items():
+              text = text.replace(old, new)
+
+          p.write_text(text)
+          PY
+
+      - name: Verify browser codecs
+        run: |
+          for file in public/web-videos/*.mp4; do
+            echo "Checking $file"
+            ffprobe -v error -select_streams v:0 -show_entries stream=codec_name,pix_fmt -of default=nw=1 "$file"
+          done
+
+      - name: Commit converted videos and portfolio source update
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f public/web-videos/*.mp4
+          git add -f public/web-videos/*.mp4 data/projects.ts
           if git diff --cached --quiet; then
             echo "No video changes to commit."
             exit 0
           fi
-          git commit -m "Generate browser-ready portfolio videos [web-video-build]"
+          git commit -m "Generate browser-ready H.264 portfolio videos"
           git push
