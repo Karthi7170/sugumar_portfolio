@@ -54,17 +54,23 @@ export default function DemoPage({ project }: Props) {
             </div>
 
             <div className={styles.preview}>
-              {videoError && <p role="status">This film could not be loaded. Please try again later.</p>}
+              {videoError && (
+                <div className={styles.previewLabel} role="status">
+                  Browser playback is unavailable for this source.
+                </div>
+              )}
               {project.video ? (
                 <video
                   className={styles.previewVideo}
-                  src={project.video}
                   poster={project.poster ?? project.image}
                   playsInline
                   controls
-                  preload="none"
+                  preload="metadata"
                   onError={() => setVideoError(true)}
-                />
+                >
+                  <source src={project.video} type={project.videoType} />
+                  Your browser does not support HTML5 video.
+                </video>
               ) : (
                 <div className={styles.previewLabel}>Film preview coming soon</div>
               )}
