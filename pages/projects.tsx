@@ -4,6 +4,7 @@ import ProjectCard from '../components/ProjectCard'
 import Footer from '../components/Footer'
 import { projects } from '../data/projects'
 import { youtubeWorks } from '../data/youtubeWorks'
+import { filmCredits } from '../data/filmCredits'
 import styles from '../styles/ProjectsPage.module.css'
 
 export default function ProjectsPage() {
@@ -11,7 +12,7 @@ export default function ProjectsPage() {
     <>
       <Head>
         <title>Sugumar — Video Editing Work</title>
-        <meta name="description" content="Published YouTube client edits and selected cinematic video editing work by Sugumar." />
+        <meta name="description" content="Published YouTube client edits, Tamil feature-film internship experience and selected cinematic video editing work by Sugumar." />
       </Head>
       <div className={styles.page}>
         <Navbar />
@@ -19,7 +20,7 @@ export default function ProjectsPage() {
           <header className={styles.hero}>
             <div className={styles.label}>WORK LIBRARY</div>
             <h1 className={styles.title}>PUBLISHED &<br />SELECTED WORK</h1>
-            <p className={styles.lead}>A mix of live client edits published on YouTube and selected portfolio films across cinematic, automotive, brand and social content.</p>
+            <p className={styles.lead}>Published client edits, feature-film internship experience and selected portfolio films across cinematic, automotive, brand and social content.</p>
           </header>
 
           <section className={styles.publishedSection} aria-label="Published YouTube edits">
@@ -53,6 +54,30 @@ export default function ProjectsPage() {
                     </a>
                   </div>
                 </article>
+              ))}
+            </div>
+          </section>
+
+          <section className={styles.creditsSection} aria-label="Film internship credits">
+            <div className={styles.sectionIntro}>
+              <div>
+                <span className={styles.sectionEyebrow}>SPECIAL CREDITS / FILM EXPERIENCE</span>
+                <h2>Feature-film exposure.</h2>
+              </div>
+              <p>Internship experience on Tamil feature-film projects, presented separately from direct client editing work.</p>
+            </div>
+            <div className={styles.creditGrid}>
+              {filmCredits.map((credit, index) => (
+                <a className={styles.creditCard} href={credit.url} target="_blank" rel="noreferrer" key={credit.title}>
+                  <div className={styles.creditTop}>
+                    <span>0{index + 1}</span>
+                    <span>{credit.label}</span>
+                  </div>
+                  <h3>{credit.title}</h3>
+                  <div className={styles.creditRole}>{credit.role}</div>
+                  <p>{credit.note}</p>
+                  <span className={styles.creditLink}>VIEW FILM / TRAILER ↗</span>
+                </a>
               ))}
             </div>
           </section>

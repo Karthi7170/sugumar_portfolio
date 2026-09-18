@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { projects } from '../data/projects'
 import { youtubeWorks } from '../data/youtubeWorks'
+import { filmCredits } from '../data/filmCredits'
 import styles from '../styles/Projects.module.css'
 
 export default function Projects() {
@@ -14,7 +15,7 @@ export default function Projects() {
             <h2>Published edits.<br /><em>Real client work.</em></h2>
           </div>
           <div className={styles.headingSide}>
-            <p>Live YouTube edits and selected portfolio films — structured to show both published client work and cinematic editing range.</p>
+            <p>Live YouTube edits, feature-film internship experience and selected portfolio films — structured to show real-world production exposure and editing range.</p>
             <Link href="/projects" className={styles.view}>View full work library <span aria-hidden="true">↗</span></Link>
           </div>
         </div>
@@ -46,6 +47,30 @@ export default function Projects() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className={styles.creditSection}>
+          <div className={styles.creditIntro}>
+            <div>
+              <span className={styles.creditEyebrow}>SPECIAL CREDITS / FILM EXPERIENCE</span>
+              <h3>From digital edits to the film set.</h3>
+            </div>
+            <p>Internship experience on Tamil feature-film projects adds real production exposure to Sugumar’s editing portfolio.</p>
+          </div>
+          <div className={styles.creditGrid}>
+            {filmCredits.map((credit, index) => (
+              <a className={styles.creditCard} href={credit.url} target="_blank" rel="noreferrer" key={credit.title}>
+                <div className={styles.creditTop}>
+                  <span>0{index + 1}</span>
+                  <span>{credit.label}</span>
+                </div>
+                <h4>{credit.title}</h4>
+                <div className={styles.creditRole}>{credit.role}</div>
+                <p>{credit.note}</p>
+                <span className={styles.creditLink}>VIEW FILM / TRAILER ↗</span>
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className={styles.portfolioDivider}>
