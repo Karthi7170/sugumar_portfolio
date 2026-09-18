@@ -32,7 +32,7 @@ export default function Projects() {
     const timer = window.setInterval(() => {
       advanceRail(youtubeRail.current)
       advanceRail(portfolioRail.current)
-    }, 5000)
+    }, 3000)
 
     return () => window.clearInterval(timer)
   }, [])
