@@ -13,7 +13,7 @@ const ProjectCard: React.FC<Props> = ({ project, featured }) => {
   return (
     <article className={`${styles.card} ${featured ? styles.featured : ''}`}>
       <Link href={project.demo} className={styles.thumbWrap} aria-label={`Explore ${project.title}`} style={{ position: 'relative', display: 'block' }}>
-        <Image src={project.poster ?? project.image} alt={project.title} fill sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+        <Image src={project.poster ?? project.image} alt={project.title} fill quality={95} sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
       </Link>
       <div className={styles.info}>
         <div className={styles.number}>{project.number}</div>

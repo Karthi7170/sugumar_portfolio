@@ -21,7 +21,7 @@ export default function Projects() {
           {projects.map((project, index) => (
             <article className={styles.card + (index === 0 ? ' ' + styles.featured : '')} key={project.slug}>
               <Link href={project.demo} className={styles.media} aria-label={'Play ' + project.title}>
-                <Image src={project.poster ?? project.image} alt={project.title + ' video project'} fill sizes={index === 0 ? '(max-width: 900px) 100vw, 66vw' : '(max-width: 900px) 100vw, 50vw'} className={styles.thumb} />
+                <Image src={project.poster ?? project.image} alt={project.title + ' video project'} fill quality={95} sizes={index === 0 ? '(max-width: 900px) 100vw, 66vw' : '(max-width: 900px) 100vw, 50vw'} className={styles.thumb} />
                 <span className={styles.tint} style={{ background: project.accent }} aria-hidden="true" />
                 <span className={styles.playIndicator} aria-hidden="true"><b>▶</b> PLAY FILM</span>
               </Link>

@@ -1,0 +1,78 @@
+name: Install 4K portfolio thumbnails
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-4k-thumbnails.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-thumbnails:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Download approved thumbnail images
+        run: |
+          set -euxo pipefail
+          mkdir -p /tmp/portfolio-thumbnails public/projects
+
+          curl -L --fail --retry 3 "https://d2ol7oe51mr4n9.cloudfront.net/user_3JFN34Qe7I15a2A1mQucztzlTZR/3b3dd724-1046-4298-a23c-d73213c4086f.png" -o /tmp/portfolio-thumbnails/portrait.png
+          curl -L --fail --retry 3 "https://d2ol7oe51mr4n9.cloudfront.net/user_3JFN34Qe7I15a2A1mQucztzlTZR/80c81a2e-ad7d-485f-92ea-c5c64996b190.png" -o /tmp/portfolio-thumbnails/ride.png
+          curl -L --fail --retry 3 "https://d2ol7oe51mr4n9.cloudfront.net/user_3JFN34Qe7I15a2A1mQucztzlTZR/42eb18b4-cb95-4aba-a584-b8d679650cf1.png" -o /tmp/portfolio-thumbnails/skyone.png
+          curl -L --fail --retry 3 "https://d2ol7oe51mr4n9.cloudfront.net/user_3JFN34Qe7I15a2A1mQucztzlTZR/0b06d5ed-3b1c-4fed-985b-3dcfa4928e1f.png" -o /tmp/portfolio-thumbnails/training.png
+          curl -L --fail --retry 3 "https://d2ol7oe51mr4n9.cloudfront.net/user_3JFN34Qe7I15a2A1mQucztzlTZR/f2c7c924-6254-4bbc-adf9-6c93827e3298.png" -o /tmp/portfolio-thumbnails/triumph.png
+
+      - name: Convert to clean 4K JPG thumbnails
+        run: |
+          set -euxo pipefail
+
+          convert /tmp/portfolio-thumbnails/portrait.png -resize "3840x2160^" -gravity center -extent 3840x2160 -unsharp "0x0.7+0.7+0.008" -strip -sampling-factor 4:4:4 -quality 94 -interlace Plane public/projects/portrait-story-thumbnail-4k-v3.jpg
+          convert /tmp/portfolio-thumbnails/ride.png -resize "3840x2160^" -gravity center -extent 3840x2160 -unsharp "0x0.7+0.7+0.008" -strip -sampling-factor 4:4:4 -quality 94 -interlace Plane public/projects/ride-in-motion-thumbnail-4k-v3.jpg
+          convert /tmp/portfolio-thumbnails/skyone.png -resize "3840x2160^" -gravity center -extent 3840x2160 -unsharp "0x0.7+0.7+0.008" -strip -sampling-factor 4:4:4 -quality 94 -interlace Plane public/projects/skyone-thumbnail-4k-v3.jpg
+          convert /tmp/portfolio-thumbnails/training.png -resize "3840x2160^" -gravity center -extent 3840x2160 -unsharp "0x0.7+0.7+0.008" -strip -sampling-factor 4:4:4 -quality 94 -interlace Plane public/projects/training-energy-thumbnail-4k-v3.jpg
+          convert /tmp/portfolio-thumbnails/triumph.png -resize "3840x2160^" -gravity center -extent 3840x2160 -unsharp "0x0.7+0.7+0.008" -strip -sampling-factor 4:4:4 -quality 94 -interlace Plane public/projects/triumph-road-film-thumbnail-4k-v3.jpg
+
+          identify public/projects/*-thumbnail-4k-v3.jpg
+
+      - name: Point portfolio projects to new 4K JPGs
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("data/projects.ts")
+          text = p.read_text()
+          replacements = {
+              "/projects/portrait-story-thumbnail-v2.webp": "/projects/portrait-story-thumbnail-4k-v3.jpg",
+              "/projects/ride-in-motion-thumbnail-v2.webp": "/projects/ride-in-motion-thumbnail-4k-v3.jpg",
+              "/projects/skyone-thumbnail-v2.webp": "/projects/skyone-thumbnail-4k-v3.jpg",
+              "/projects/training-energy-thumbnail-v2.webp": "/projects/training-energy-thumbnail-4k-v3.jpg",
+              "/projects/triumph-road-film-thumbnail-v2.webp": "/projects/triumph-road-film-thumbnail-4k-v3.jpg",
+          }
+          for old, new in replacements.items():
+              text = text.replace(old, new)
+          p.write_text(text)
+          PY
+
+      - name: Commit 4K thumbnails
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/projects.ts public/projects/*-thumbnail-4k-v3.jpg
+          if git diff --cached --quiet; then
+            echo "No thumbnail changes to commit."
+            exit 0
+          fi
+          git commit -m "Add approved 4K JPG portfolio thumbnails"
+          git push
