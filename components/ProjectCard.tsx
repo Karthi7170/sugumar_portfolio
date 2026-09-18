@@ -11,15 +11,14 @@ type Props = {
 
 const ProjectCard: React.FC<Props> = ({ project, featured }) => {
   return (
-    <article className={`${styles.card} ${featured ? styles.featured : ''}`}>
-      <Link href={project.demo} className={styles.thumbWrap} aria-label={`Explore ${project.title}`} style={{ position: 'relative', display: 'block' }}>
-        <Image src={project.poster ?? project.image} alt={project.title} fill quality={95} sizes="(max-width: 900px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+    <article className={styles.card + (featured ? ' ' + styles.featured : '')}>
+      <Link href={project.demo} className={styles.thumbWrap} aria-label={'Explore ' + project.title} style={{ position: 'relative', display: 'block' }}>
+        <Image src={project.poster ?? project.image} alt={project.title} fill quality={95} sizes="(max-width: 900px) 88vw, 760px" style={{ objectFit: 'cover' }} />
       </Link>
       <div className={styles.info}>
         <div className={styles.number}>{project.number}</div>
         <div className={styles.category}>{project.category}</div>
         <h3 className={styles.title}>{project.title}</h3>
-        <p className={styles.description}>{project.description}</p>
         <Link href={project.demo} className={styles.link}>
           {project.linkLabel ?? 'VIEW DEMO'} <span aria-hidden="true">↗</span>
         </Link>

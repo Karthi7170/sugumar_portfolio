@@ -3,66 +3,30 @@ import styles from '../styles/Services.module.css'
 
 const services = [
   { id: '01', title: 'CINEMATIC EDITING', description: 'Narrative pacing, clean cuts and purposeful transitions that make the footage feel intentional.' },
-  { id: '02', title: 'SOCIAL CONTENT', description: 'Short-form edits built for Reels, Shorts and campaign content without losing visual polish.' },
-  { id: '03', title: 'MOTION & RHYTHM', description: 'Music-led cuts, kinetic sequencing and subtle motion design that support the story instead of distracting from it.' },
-  { id: '04', title: 'COLOR & FINISHING', description: 'Color treatment, sound polish and final finishing that gives every delivery a cohesive cinematic look.' }
+  { id: '02', title: 'SOCIAL CONTENT', description: 'Short-form edits built for Reels, Shorts and campaign content without losing visual polish.' }
 ]
 
 const tools = [
-  { id: 'capcut', name: 'CapCut', detail: 'Short-form & social edits' },
-  { id: 'finalcut', name: 'Final Cut Pro', detail: 'Fast professional editing' },
-  { id: 'premiere', name: 'Adobe Premiere Pro', detail: 'Professional timeline editing' },
-  { id: 'canva', name: 'Canva', detail: 'Graphics & social creatives' },
-  { id: 'inshot', name: 'InShot', detail: 'Mobile-first video edits' },
-  { id: 'davinci', name: 'DaVinci Resolve', detail: 'Editing, color & finishing' }
+  { id: 'premiere', name: 'Premiere Pro', detail: 'Editing & timeline' },
+  { id: 'aftereffects', name: 'After Effects', detail: 'Motion graphics & compositing' },
+  { id: 'davinci', name: 'DaVinci Resolve', detail: 'Color grading & finishing' }
 ]
 
 function ToolIcon({ id }: { id: string }) {
-  if (id === 'capcut') {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M14 17h36L38 28H22L14 17Zm0 30h36L38 36H22L14 47Z" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M18 18 46 46M46 18 18 46" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      </svg>
-    )
-  }
-
-  if (id === 'finalcut') {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="13" y="22" width="38" height="27" rx="3" fill="none" stroke="currentColor" strokeWidth="4" />
-        <path d="M13 22 20 11h38l-7 11H13Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-        <path d="m23 12-7 10m18-10-7 10m18-10-7 10" fill="none" stroke="currentColor" strokeWidth="3" />
-        <path d="m28 30 12 6-12 6V30Z" fill="currentColor" />
-      </svg>
-    )
-  }
-
   if (id === 'premiere') {
     return (
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="10" y="10" width="44" height="44" rx="8" fill="none" stroke="currentColor" strokeWidth="4" />
-        <text x="18" y="41" fontSize="24" fontWeight="700" fill="currentColor" fontFamily="Arial, sans-serif">Pr</text>
+        <rect x="9" y="9" width="46" height="46" rx="8" fill="none" stroke="currentColor" strokeWidth="4" />
+        <text x="17" y="42" fontSize="24" fontWeight="700" fill="currentColor" fontFamily="Arial, sans-serif">Pr</text>
       </svg>
     )
   }
 
-  if (id === 'canva') {
+  if (id === 'aftereffects') {
     return (
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" strokeWidth="4" />
-        <path d="M42 22c-3-4-7-6-12-5-8 1-13 7-13 15s6 15 15 15c5 0 9-2 12-6" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      </svg>
-    )
-  }
-
-  if (id === 'inshot') {
-    return (
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <rect x="11" y="11" width="42" height="42" rx="11" fill="none" stroke="currentColor" strokeWidth="4" />
-        <rect x="20" y="20" width="24" height="24" rx="6" fill="none" stroke="currentColor" strokeWidth="4" />
-        <circle cx="32" cy="32" r="5" fill="currentColor" />
-        <circle cx="47" cy="17" r="3" fill="currentColor" />
+        <rect x="9" y="9" width="46" height="46" rx="8" fill="none" stroke="currentColor" strokeWidth="4" />
+        <text x="15" y="42" fontSize="23" fontWeight="700" fill="currentColor" fontFamily="Arial, sans-serif">Ae</text>
       </svg>
     )
   }
@@ -93,12 +57,12 @@ const Services: React.FC = () => {
               <span className={styles.toolsEyebrow}>EDITING TOOLKIT</span>
               <h3>Tools I work with.</h3>
             </div>
-            <p>A flexible workflow across desktop and mobile editing tools, from quick social cuts to professional color and finishing.</p>
+            <p>My core post-production setup covers editing, motion work, color grading and final delivery from one focused workflow.</p>
           </div>
 
           <div className={styles.toolsGrid}>
             {tools.map((tool) => (
-              <div key={tool.id} className={`${styles.toolCard} ${styles[tool.id]}`}>
+              <div key={tool.id} className={styles.toolCard + ' ' + styles[tool.id]}>
                 <div className={styles.toolIcon}><ToolIcon id={tool.id} /></div>
                 <div>
                   <h4>{tool.name}</h4>
