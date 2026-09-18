@@ -25,7 +25,7 @@ export default function Hero() {
           <em>Finished with feeling.</em>
         </h1>
         <p className={styles.description}>
-          I&apos;m Sugumar. I shape raw footage into polished films, social edits and visual stories with purposeful pacing, color and detail.
+          I&apos;m Sugumar. I shape raw footage into polished films, social edits and visual stories with purposeful pacing, rhythm and detail.
         </p>
         <div className={styles.actions}>
           <a className={styles.primary} href="#projects">View selected work <span aria-hidden="true">↗</span></a>
@@ -34,7 +34,7 @@ export default function Hero() {
       </div>
 
       <div className={styles.footerLine}>
-        <span>EDIT · COLOR · MOTION · SOUND</span>
+        <span>EDIT · MOTION · SOUND</span>
         <a href="#projects">SCROLL TO WORK ↓</a>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../styles/About.module.css'
 
-const skills = ['EDITING', 'COLOR', 'MOTION', 'SOUND', 'SOCIAL CUTS', 'CINEMATIC PACING']
+const skills = ['EDITING', 'MOTION', 'SOUND', 'SOCIAL CUTS', 'CINEMATIC PACING']
 
 const About: React.FC = () => {
   return (

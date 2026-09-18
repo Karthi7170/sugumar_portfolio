@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { projects } from '../data/projects'
 import { youtubeWorks } from '../data/youtubeWorks'
 import { filmCredits } from '../data/filmCredits'
@@ -8,6 +8,16 @@ import styles from '../styles/Projects.module.css'
 
 const clientDescription = 'I treat every client edit as a piece of storytelling: I find the strongest moments, build the rhythm around the message, keep the cuts clean, and polish the final flow so it feels natural, engaging and ready to publish.'
 const portfolioDescription = 'These films are where I explore my range more freely. I shape each edit around the mood of the footage — balancing pacing, music, motion and visual texture so the final piece feels cinematic without being over-edited.'
+
+const advanceRail = (node: HTMLDivElement | null) => {
+  if (!node) return
+  const isAtEnd = node.scrollLeft + node.clientWidth >= node.scrollWidth - 24
+  if (isAtEnd) {
+    node.scrollTo({ left: 0, behavior: 'smooth' })
+    return
+  }
+  node.scrollBy({ left: Math.max(node.clientWidth * 0.78, 320), behavior: 'smooth' })
+}
 
 export default function Projects() {
   const youtubeRail = useRef<HTMLDivElement>(null)
@@ -17,6 +27,15 @@ export default function Projects() {
     if (!node) return
     node.scrollBy({ left: direction * Math.max(node.clientWidth * 0.78, 320), behavior: 'smooth' })
   }
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      advanceRail(youtubeRail.current)
+      advanceRail(portfolioRail.current)
+    }, 5000)
+
+    return () => window.clearInterval(timer)
+  }, [])
 
   return (
     <section id="projects" className={styles.projects}>

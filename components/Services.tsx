@@ -9,7 +9,7 @@ const services = [
 const tools = [
   { id: 'premiere', name: 'Premiere Pro', detail: 'Editing & timeline' },
   { id: 'aftereffects', name: 'After Effects', detail: 'Motion graphics & compositing' },
-  { id: 'davinci', name: 'DaVinci Resolve', detail: 'Color grading & finishing' }
+  { id: 'davinci', name: 'DaVinci Resolve', detail: 'Grading & finishing' }
 ]
 
 function ToolIcon({ id }: { id: string }) {
@@ -57,7 +57,7 @@ const Services: React.FC = () => {
               <span className={styles.toolsEyebrow}>EDITING TOOLKIT</span>
               <h3>Tools I work with.</h3>
             </div>
-            <p>My core post-production setup covers editing, motion work, color grading and final delivery from one focused workflow.</p>
+            <p>My core post-production setup covers editing, motion work, grading and final delivery from one focused workflow.</p>
           </div>
 
           <div className={styles.toolsGrid}>

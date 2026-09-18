@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <Head>
         <title>Sugumar — Video Editor & Cinematic Storyteller</title>
-        <meta name="description" content="Explore Sugumar’s cinematic edits, music videos and social content. Thoughtful pacing, expressive color and stories made to be felt." />
+        <meta name="description" content="Explore Sugumar’s cinematic edits, music videos and social content. Thoughtful pacing, expressive visuals and stories made to be felt." />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
       </Head>
       <a className="skip-link" href="#projects">Skip to selected work</a>

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Navbar from '../components/Navbar'
 import ProjectCard from '../components/ProjectCard'
 import Footer from '../components/Footer'
@@ -11,6 +11,16 @@ import styles from '../styles/ProjectsPage.module.css'
 const clientDescription = 'These published edits show how I approach real client footage: I build the pace around the message, keep every cut purposeful, and finish the visuals so the story stays clear, engaging and ready for the audience.'
 const portfolioDescription = 'These selected films show the range I enjoy working across. I build each piece around the footage itself — using pacing, music, motion and visual texture to create a cinematic finish while keeping the edit clean and intentional.'
 
+const advanceRail = (node: HTMLDivElement | null) => {
+  if (!node) return
+  const isAtEnd = node.scrollLeft + node.clientWidth >= node.scrollWidth - 24
+  if (isAtEnd) {
+    node.scrollTo({ left: 0, behavior: 'smooth' })
+    return
+  }
+  node.scrollBy({ left: Math.max(node.clientWidth * 0.78, 320), behavior: 'smooth' })
+}
+
 export default function ProjectsPage() {
   const youtubeRail = useRef<HTMLDivElement>(null)
   const portfolioRail = useRef<HTMLDivElement>(null)
@@ -19,6 +29,15 @@ export default function ProjectsPage() {
     if (!node) return
     node.scrollBy({ left: direction * Math.max(node.clientWidth * 0.78, 320), behavior: 'smooth' })
   }
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      advanceRail(youtubeRail.current)
+      advanceRail(portfolioRail.current)
+    }, 5000)
+
+    return () => window.clearInterval(timer)
+  }, [])
 
   return (
     <>
