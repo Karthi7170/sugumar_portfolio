@@ -1,7 +1,8 @@
 import Head from 'next/head'
-import { useEffect, useRef } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
-import ProjectCard from '../components/ProjectCard'
 import Footer from '../components/Footer'
 import { projects } from '../data/projects'
 import { youtubeWorks } from '../data/youtubeWorks'
@@ -11,33 +12,43 @@ import styles from '../styles/ProjectsPage.module.css'
 const clientDescription = 'These published edits show how I approach real client footage: I build the pace around the message, keep every cut purposeful, and finish the visuals so the story stays clear, engaging and ready for the audience.'
 const portfolioDescription = 'These selected films show the range I enjoy working across. I build each piece around the footage itself — using pacing, music, motion and visual texture to create a cinematic finish while keeping the edit clean and intentional.'
 
-const advanceRail = (node: HTMLDivElement | null) => {
-  if (!node) return
-  const isAtEnd = node.scrollLeft + node.clientWidth >= node.scrollWidth - 24
-  if (isAtEnd) {
-    node.scrollTo({ left: 0, behavior: 'smooth' })
-    return
-  }
-  node.scrollBy({ left: Math.max(node.clientWidth * 0.78, 320), behavior: 'smooth' })
+const getOffset = (index: number, active: number, total: number) => {
+  let offset = index - active
+  const half = Math.floor(total / 2)
+  if (offset > half) offset -= total
+  if (offset < -half) offset += total
+  return offset
+}
+
+const getPositionClass = (offset: number) => {
+  if (offset === 0) return styles.pos0
+  if (offset === 1) return styles.pos1
+  if (offset === 2) return styles.pos2
+  if (offset === -1) return styles.neg1
+  if (offset === -2) return styles.neg2
+  return styles.hiddenCard
 }
 
 export default function ProjectsPage() {
-  const youtubeRail = useRef<HTMLDivElement>(null)
-  const portfolioRail = useRef<HTMLDivElement>(null)
-
-  const moveRail = (node: HTMLDivElement | null, direction: number) => {
-    if (!node) return
-    node.scrollBy({ left: direction * Math.max(node.clientWidth * 0.78, 320), behavior: 'smooth' })
-  }
+  const [youtubeIndex, setYoutubeIndex] = useState(0)
+  const [portfolioIndex, setPortfolioIndex] = useState(0)
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      advanceRail(youtubeRail.current)
-      advanceRail(portfolioRail.current)
+      setYoutubeIndex((current) => (current + 1) % youtubeWorks.length)
+      setPortfolioIndex((current) => (current + 1) % projects.length)
     }, 3000)
 
     return () => window.clearInterval(timer)
   }, [])
+
+  const moveYoutube = (direction: number) => {
+    setYoutubeIndex((current) => (current + direction + youtubeWorks.length) % youtubeWorks.length)
+  }
+
+  const movePortfolio = (direction: number) => {
+    setPortfolioIndex((current) => (current + direction + projects.length) % projects.length)
+  }
 
   return (
     <>
@@ -61,34 +72,52 @@ export default function ProjectsPage() {
                 <h2>Watch the finished work.</h2>
               </div>
               <div className={styles.sliderControls}>
-                <span>SWIPE / DRAG</span>
-                <button type="button" onClick={() => moveRail(youtubeRail.current, -1)} aria-label="Previous client edits">←</button>
-                <button type="button" onClick={() => moveRail(youtubeRail.current, 1)} aria-label="Next client edits">→</button>
+                <span>AUTO / 3 SEC</span>
+                <button type="button" onClick={() => moveYoutube(-1)} aria-label="Previous client edit">←</button>
+                <button type="button" onClick={() => moveYoutube(1)} aria-label="Next client edit">→</button>
               </div>
             </div>
 
-            <div className={styles.youtubeRail} ref={youtubeRail}>
-              {youtubeWorks.map((work) => (
-                <article className={styles.youtubeCard} key={work.id}>
-                  <div className={styles.videoFrame}>
-                    <iframe
-                      src={work.embed}
-                      title={work.title}
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                  <div className={styles.youtubeInfo}>
-                    <div className={styles.youtubeNumber}>{work.number}</div>
-                    <div className={styles.youtubeCategory}>{work.category}</div>
-                    <h3>{work.title}</h3>
-                    <a href={work.url} target="_blank" rel="noreferrer" className={styles.youtubeLink}>
-                      WATCH ON YOUTUBE <span aria-hidden="true">↗</span>
-                    </a>
-                  </div>
-                </article>
-              ))}
+            <div className={styles.coverflowStage} aria-label="Client edits slider">
+              {youtubeWorks.map((work, index) => {
+                const offset = getOffset(index, youtubeIndex, youtubeWorks.length)
+                const active = offset === 0
+                return (
+                  <article
+                    className={styles.coverflowCard + ' ' + getPositionClass(offset)}
+                    key={work.id}
+                    onClick={() => !active && setYoutubeIndex(index)}
+                    role={!active ? 'button' : undefined}
+                    tabIndex={!active ? 0 : -1}
+                    onKeyDown={(event) => {
+                      if (!active && (event.key === 'Enter' || event.key === ' ')) setYoutubeIndex(index)
+                    }}
+                    aria-label={!active ? 'Show ' + work.title : undefined}
+                  >
+                    <div className={styles.coverflowMedia}>
+                      {active ? (
+                        <iframe
+                          src={work.embed}
+                          title={work.title}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      ) : (
+                        <img src={'https://i.ytimg.com/vi/' + work.id + '/hqdefault.jpg'} alt="" loading="lazy" />
+                      )}
+                      {!active && <span className={styles.sideLabel}>{work.title}</span>}
+                      {active && (
+                        <div className={styles.activeOverlay}>
+                          <span>{work.number} / {work.category}</span>
+                          <strong>{work.title}</strong>
+                          <a href={work.url} target="_blank" rel="noreferrer">WATCH ON YOUTUBE ↗</a>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                )
+              })}
             </div>
 
             <div className={styles.sharedNote}>
@@ -132,13 +161,49 @@ export default function ProjectsPage() {
                 <h2>More editing range.</h2>
               </div>
               <div className={styles.sliderControls}>
-                <span>SWIPE / DRAG</span>
-                <button type="button" onClick={() => moveRail(portfolioRail.current, -1)} aria-label="Previous portfolio films">←</button>
-                <button type="button" onClick={() => moveRail(portfolioRail.current, 1)} aria-label="Next portfolio films">→</button>
+                <span>AUTO / 3 SEC</span>
+                <button type="button" onClick={() => movePortfolio(-1)} aria-label="Previous portfolio film">←</button>
+                <button type="button" onClick={() => movePortfolio(1)} aria-label="Next portfolio film">→</button>
               </div>
             </div>
-            <div className={styles.projectRail} ref={portfolioRail}>
-              {projects.map((project) => <ProjectCard key={project.slug} project={project} />)}
+
+            <div className={styles.coverflowStage} aria-label="Selected portfolio films slider">
+              {projects.map((project, index) => {
+                const offset = getOffset(index, portfolioIndex, projects.length)
+                const active = offset === 0
+                return (
+                  <article
+                    className={styles.coverflowCard + ' ' + getPositionClass(offset)}
+                    key={project.slug}
+                    onClick={() => !active && setPortfolioIndex(index)}
+                    role={!active ? 'button' : undefined}
+                    tabIndex={!active ? 0 : -1}
+                    onKeyDown={(event) => {
+                      if (!active && (event.key === 'Enter' || event.key === ' ')) setPortfolioIndex(index)
+                    }}
+                    aria-label={!active ? 'Show ' + project.title : undefined}
+                  >
+                    <div className={styles.coverflowMedia}>
+                      <Image
+                        src={project.poster ?? project.image}
+                        alt={active ? project.title + ' video project' : ''}
+                        fill
+                        quality={95}
+                        sizes="(max-width: 850px) 78vw, 760px"
+                        className={styles.coverflowImage}
+                      />
+                      {!active && <span className={styles.sideLabel}>{project.title}</span>}
+                      {active && (
+                        <div className={styles.activeOverlay}>
+                          <span>{project.number} / {project.category}</span>
+                          <strong>{project.title}</strong>
+                          <Link href={project.demo}>PLAY FILM ↗</Link>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                )
+              })}
             </div>
 
             <div className={styles.sharedNote}>
