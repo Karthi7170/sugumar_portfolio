@@ -9,16 +9,16 @@ export type FilmCredit = {
 export const filmCredits: FilmCredit[] = [
   {
     title: 'LUBBER PANDHU',
-    role: 'INTERNSHIP EXPERIENCE',
+    role: 'ASSOCIATE EDITOR — WORKED UNDER MADHAN',
     label: 'TAMIL FEATURE FILM',
-    note: 'Hands-on film-production exposure as part of the team environment on this Tamil feature project.',
+    note: 'Feature-film editing experience as an Associate Editor working under Madhan, contributing within a professional Tamil cinema post-production environment.',
     url: 'https://www.youtube.com/watch?v=oP88LHBukW8'
   },
   {
     title: 'KUMAARA SAMBAVAM',
-    role: 'INTERNSHIP EXPERIENCE',
+    role: 'ASSOCIATE EDITOR — WORKED UNDER MADHAN',
     label: 'TAMIL FEATURE FILM',
-    note: 'Additional on-project internship exposure, adding feature-film experience alongside client and digital editing work.',
+    note: 'Additional feature-film editing experience as an Associate Editor working under Madhan, strengthening hands-on exposure to professional post-production workflows.',
     url: 'https://www.youtube.com/watch?v=cTTlzYh246I'
   }
 ]
