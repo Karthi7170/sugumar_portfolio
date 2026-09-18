@@ -6,7 +6,7 @@ export default function Hero() {
     <section id="home" className={styles.hero}>
       <div className={styles.visual} aria-hidden="true">
         <Image
-          src="/images/sugumar-hero.webp"
+          src="/images/sugumar-hero-clean-4k.webp"
           alt=""
           fill
           priority
