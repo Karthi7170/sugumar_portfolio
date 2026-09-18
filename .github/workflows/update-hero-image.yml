@@ -1,0 +1,63 @@
+name: Replace homepage hero image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/update-hero-image.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  replace-hero:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+
+      - name: Download approved clean portrait
+        run: |
+          set -euxo pipefail
+          mkdir -p /tmp/hero public/images
+          curl -L --fail --retry 3             "https://d2ol7oe51mr4n9.cloudfront.net/user_3JFN34Qe7I15a2A1mQucztzlTZR/ce863bbe-09e9-49f5-8574-2ee5a24840ff.png"             -o /tmp/hero/clean-portrait.png
+
+      - name: Build high-quality 4K hero asset
+        run: |
+          set -euxo pipefail
+          convert /tmp/hero/clean-portrait.png             -resize "3840x2160^"             -gravity center             -extent 3840x2160             -unsharp "0x0.6+0.6+0.008"             -strip             -quality 94             public/images/sugumar-hero-clean-4k.webp
+
+          identify public/images/sugumar-hero-clean-4k.webp
+
+      - name: Update homepage hero reference
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("components/Hero.tsx")
+          text = p.read_text()
+          text = text.replace(
+              'src="/images/sugumar-hero.webp"',
+              'src="/images/sugumar-hero-clean-4k.webp"'
+          )
+          p.write_text(text)
+          PY
+
+      - name: Commit updated hero
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add components/Hero.tsx public/images/sugumar-hero-clean-4k.webp
+          if git diff --cached --quiet; then
+            echo "No hero changes to commit."
+            exit 0
+          fi
+          git commit -m "Replace homepage hero with clean portrait image"
+          git push
