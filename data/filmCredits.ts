@@ -28,7 +28,7 @@ export const filmCredits: FilmCredit[] = [
     note: 'I assisted under Editor Madhan on this feature-film project, gaining more hands-on exposure to the structure, pace and discipline of a professional edit.'
   },
   {
-    title: 'DASHAMAKAN 2',
+    title: 'DASHAMAKAN',
     role: 'ASSISTANT UNDER EDITOR MADHAN',
     label: 'TAMIL FEATURE FILM',
     note: 'I worked as an assistant under Editor Madhan on this film, contributing within the post-production process and continuing to build real feature-film editing experience.'
